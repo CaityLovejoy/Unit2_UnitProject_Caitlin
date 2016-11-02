@@ -59,6 +59,5 @@ class Entity
   void CleanUpDeadObject()
   {
     box2d.destroyBody(_body);
-    //This object can now be safely deleted from an ArrayList
   }
 }
