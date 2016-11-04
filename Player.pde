@@ -6,13 +6,16 @@ class Player extends Entity
   boolean _attackRight;
   boolean _attackLeft;
   boolean _weaponChange;
-  PVector _moveSpeed;
+  PVector _Speed;
+  boolean _jumpAvailable;
 
   Player(float x, float y, PImage img, boolean isActive)
   {
     super(x, y, img, "Player", isActive);
     super.CreateBody(BodyType.DYNAMIC);
-    _moveSpeed = new PVector(50, 0);
+    super._body.setUserData(this);
+    _Speed = new PVector(100, 50000);
+    _jumpAvailable = true;
   }
  
  void Update()
@@ -37,7 +40,7 @@ class Player extends Entity
       {
         _keyJump = true;
       }
-      if (key == '\'')
+      if (key == ';')
       {
         println("asdferg");
         _attackRight = true;
@@ -64,6 +67,45 @@ class Player extends Entity
   
   void Movement()
   {
+    Body b = super._body;
+    Vec2 currentVelocity = super._body.getLinearVelocity();
+    if (_keyRight)
+    {
+       currentVelocity.x = 1 * _Speed.x;
+       //println("Boop?");
+    }
+    else if (_keyLeft)
+    {
+      currentVelocity.x = -1 * _Speed.x;
+    }
+    else
+    {
+      currentVelocity.x = 0;
+    }
     
+    if (_keyJump && _jumpAvailable)
+    {
+      b.applyLinearImpulse( new Vec2(0, _Speed.y), super.GetWorldCenter(),true);
+      //currentVelocity.y = 1 * _Speed.y;
+      _jumpAvailable = false;
+    }
+    println(currentVelocity);
+    super._body.setLinearVelocity(currentVelocity);
   }
+  
+  void Draw()
+  {
+    super.Draw();
+  }
+  
+  void Collision(Entity e)
+  {
+    //println(e.getType());
+    if(e.getType().equals("Platform"))
+    {
+     _jumpAvailable = true;
+    // println("?????");
+    }
+  }
+  
 }

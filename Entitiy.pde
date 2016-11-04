@@ -35,9 +35,9 @@ class Entity
     sd.setAsBox(box2dW, box2dH);
     FixtureDef fd = new FixtureDef();
     fd.shape = sd;
-    fd.density = 1;
+    fd.density = 2;
     fd.friction = 0.3;
-    fd.restitution = 1;
+    fd.restitution = 0.5;
     BodyDef bd = new BodyDef();
     bd.type = bType;
     bd.position.set(box2d.coordPixelsToWorld(_x, _y));
@@ -51,7 +51,7 @@ class Entity
     imageMode(CENTER);
     pushMatrix();
     translate(pos.x, pos.y);
-    rotate(-a);
+    //rotate(-a);
     image(_img, 0, 0);
     popMatrix();
   }
@@ -60,4 +60,10 @@ class Entity
   {
     box2d.destroyBody(_body);
   }
+  
+  String getType()
+  {
+    return _type;
+  }
+  Vec2    GetWorldCenter() { return _body.getWorldCenter(); } 
 }
